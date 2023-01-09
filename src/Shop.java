@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Shop {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         ArrayList<Product> products = new ArrayList<Product>();
         Scanner scanner = new Scanner(System.in);
         Verkaufer seller = new Verkaufer();
@@ -36,4 +36,4 @@ public class Shop {
             System.out.println("Keine Produkte gefunden.");
         }
     }
-}
+*/}
