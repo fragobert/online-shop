@@ -50,6 +50,24 @@ public class User {
             return false;
         }
     }
+
+    public void withdraw(double amount) {
+        if(balance < 0 || balance < amount){
+            System.out.println("Abheben felgeschlagen!");
+        }else{
+            System.out.println(amount + "€ wurden von Ihrem Konto abgehoben!");
+            this.balance -= amount;
+        }
+    }
+    public void deposit(double amount) {
+        if(amount < 0){
+            System.out.println("Geldbetrag muss positiv sein!");
+            this.balance += amount;
+        }
+    }
+    public double getBalance(){
+        return this.balance;
+    }
     public String getName() {
         return this.name;
     }
