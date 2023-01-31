@@ -1,0 +1,1 @@
+C:\Users\stafl\.jdks\openjdk-19.0.1\bin\java.exe -classpath C:\Users\stafl\IdeaProjects\online-shop\out\production\online-shop Main
