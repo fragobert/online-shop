@@ -1,20 +1,23 @@
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.io.Console;
 
-public class Login {
+public class UserManagement {
     Scanner scanner = new Scanner(System.in);
     Console console = System.console();
     private HashMap<String, User> users = new HashMap<String, User>();
 
-    public Login() {
+
+
+    public UserManagement() {
+        User test = new User("admin", "admin", "adminpassword");
+        users.put("admin", test);
     }
 
     public User login() {
         System.out.println("Geben sie ihre Email ein: ");
         String username = scanner.nextLine();
-        String password = passwordEntry();
+        String password = passwordEntryTest();
 
         if (users.containsKey(username)) {
             System.out.println(users.get(username).getName());
@@ -27,24 +30,23 @@ public class Login {
         return null;
     }
 
-    public User register() {
+    public void register() {
         System.out.println("Geben sie ihre Email ein: ");
         String username = scanner.nextLine();
-        String password = passwordEntry();
+        String password = passwordEntryTest();
         System.out.println("Geben sie ihren Namen ein: ");
         String name = scanner.nextLine();
-        if (users.containsKey(username)) {
-            System.out.println("Registrierung fehlgeschlagen");
-            return null;
-        } else {
-            User newUser = new User(username, name, password);
-            users.put(username, newUser);
+        if (!users.containsKey(username)) {
+            users.put(username, new User(username, name, password));
             System.out.println("Registrierung erfolgreich");
-            return newUser;
+        } else {
+            System.out.println("Registrierung fehlgeschlagen: Email bereits vergeben");
         }
     }
 
     public void printUsers() {
+        System.out.println("Registered Users: ");
+        System.out.println(users);
         users.forEach((key, value) -> {
             System.out.print("E-mail: " + key + " Name: " + value.getName() + " \n");
         });
@@ -63,6 +65,12 @@ public class Login {
 
         return new String(passwd);
 
+    }
+    public String passwordEntryTest(){
+        String password;
+        Scanner scanner = new Scanner(System.in);
+        password = scanner.nextLine();
+        return password;
     }
 
 

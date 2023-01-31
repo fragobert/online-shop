@@ -9,6 +9,7 @@ public class Product {
         this.price = price;
         id = count;
         count++;
+        Shop.addProduct(this);
     }
 
     public String getName() {

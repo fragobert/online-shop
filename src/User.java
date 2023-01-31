@@ -15,7 +15,9 @@ public class User {
 
     public void addProduct(String name, double price, int quantity) {
         for (int i = 0; i < quantity; i++) {
-            this.ownedProducts.add(new Product(name, price));
+            Product newProduct = new Product(name, price);
+            this.ownedProducts.add(newProduct);
+
         }
     }
 

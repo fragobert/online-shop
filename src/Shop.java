@@ -2,38 +2,120 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Shop {
-    /*public static void main(String[] args) {
-        ArrayList<Product> products = new ArrayList<Product>();
+    ArrayList<Product> allProducts = new ArrayList<Product>();
+
+    public void startMenu() {
+        UserManagement userManagement = new UserManagement();
         Scanner scanner = new Scanner(System.in);
-        Verkaufer seller = new Verkaufer();
-        Kaufer customer = new Kaufer();
-
-        // Der Kunde durchsucht die Produkte
-        System.out.println("Was möchten Sie kaufen?");
-        String searchTerm = scanner.nextLine();
-        ArrayList<Product> searchResults = customer.search(searchTerm, products);
-        if (searchResults.size() > 0) {
-            // Der Kunde wählt ein Produkt aus
-            System.out.println("Welches Produkt möchten Sie kaufen?");
-            for (int i = 0; i < searchResults.size(); i++) {
-                System.out.println((i + 1) + ": " + searchResults.get(i).getName() + " - " + searchResults.get(i).getPrice() + " €");
-            }
-            int productIndex = scanner.nextInt();
-            Product selectedProduct = searchResults.get(productIndex - 1);
-            double price = selectedProduct.getPrice();
-
-            // Der Kunde bezahlt
-            System.out.println("Wie viel Geld haben Sie?");
-            double amount = scanner.nextDouble();
-            if (customer.pay(amount)) {
-                // Der Verkäufer verschickt das Produkt
-                seller.ship(selectedProduct);
-                System.out.println("Vielen Dank für Ihren Einkauf!");
-            } else {
-                System.out.println("Sie haben nicht genug Geld.");
-            }
-        } else {
-            System.out.println("Keine Produkte gefunden.");
+        User user;
+        System.out.println("Willkommen bei der Shop-App!");
+        System.out.println("1: Registrieren");
+        System.out.println("2: Einloggen");
+        System.out.println("3: Beenden");
+        System.out.println("4: alle user ausgeben");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                userManagement.register();
+                startMenu();
+                break;
+            case 2:
+                user = userManagement.login();
+                mainMenu(user);
+                break;
+            case 3:
+                System.exit(0);
+                break;
+            case 4:
+                userManagement.printUsers();
+                startMenu();
+                break;
+            default:
+                System.out.println("Ungültige Eingabe");
+                startMenu();
+                break;
         }
     }
-*/}
+    public void mainMenu(User user) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1: Produktverwaltung");
+        System.out.println("2: Konto verwalten");
+        System.out.println("3: Ausloggen und zum Startmenü zurückkehren");
+        int input = scanner.nextInt();
+        switch (input) {
+            case 1:
+                productMenu(user);
+                break;
+            case 2:
+                accountManagement(user);
+                break;
+            case 3:
+                startMenu();
+                break;
+            default:
+                System.out.println("Ungültige Eingabe");
+                mainMenu(user);
+                break;
+        }
+    }
+    public void productMenu(User user) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1: Alle Produkte ausgeben");
+        System.out.println("2: Meine Produkte ausgeben");
+        System.out.println("3: Produkte suchen");
+        System.out.println("4: Produkt hinzufügen");
+        System.out.println("5: Produkt löschen");
+        System.out.println("6: Produkt kaufen");
+        int input = scanner.nextInt();
+
+        switch (input) {
+            case 1:
+                user.printProducts();
+                productMenu(user);
+                break;
+            case 2:
+                user.printProducts();
+                break;
+            case 3:
+                user.search()
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                System.out.println("Welchen Gegenstand möchten Sie kaufen?");
+                user.buy();
+                break;
+        }
+    }
+
+    public void accountManagement(User user) {
+        Scanner scanner = new Scanner(System.in);
+        int amount;
+        System.out.println("1: Geld aufladen");
+        System.out.println("2: Geld abheben");
+        System.out.println("3: Kontoauszug");
+        System.out.println("4: Zurück zum ");
+        int input = scanner.nextInt();
+        switch (input) {
+            case 1:
+                System.out.println("Wie viel möchten sie aufladen?");
+                amount = scanner.nextInt();
+                user.deposit(amount);
+                break;
+            case 2:
+                System.out.println("Wie viel möchten sie abheben?");
+                amount = scanner.nextInt();
+                user.withdraw(amount);
+                break;
+            case 3:
+                System.out.println("Ihr Kontostand liegt momentan bei"+user.getBalance()+"€");
+        }
+    }
+
+    // gibt alle bereits vorhandenen Produkte aus
+    public void addProduct(Product product) {
+        allProducts.add(product);
+    }
+}
