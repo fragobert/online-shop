@@ -1,9 +1,15 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+//import the UserManagement class
 
 public class Shop {
     ArrayList<Product> allProducts = new ArrayList<Product>();
 
+    public Shop(){
+        UserManagement.admin.addProduct("Apfel", 1.5);
+        allProducts.add(new Product("Apfel", 1.5, UserManagement.admin));
+
+    }
     public void startMenu() {
         UserManagement userManagement = new UserManagement();
         Scanner scanner = new Scanner(System.in);
@@ -21,6 +27,12 @@ public class Shop {
                 break;
             case 2:
                 user = userManagement.login();
+
+                if (user == null) {
+                    startMenu();
+                }
+
+
                 mainMenu(user);
                 break;
             case 3:
@@ -36,10 +48,11 @@ public class Shop {
                 break;
         }
     }
+
     public void mainMenu(User user) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("1: Produktverwaltung");
-        System.out.println("2: Konto verwalten");
+        System.out.println("2: Kontoverwaltung");
         System.out.println("3: Ausloggen und zum Startmenü zurückkehren");
         int input = scanner.nextInt();
         switch (input) {
@@ -58,6 +71,7 @@ public class Shop {
                 break;
         }
     }
+
     public void productMenu(User user) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("1: Alle Produkte ausgeben");
@@ -77,7 +91,10 @@ public class Shop {
                 user.printProducts();
                 break;
             case 3:
-                user.search()
+                System.out.println("Welches Produkt möchten Sie suchen?");
+                String serachTerm = scanner.next();
+                searchAll(serachTerm);
+                productMenu(user);
                 break;
             case 4:
                 break;
@@ -103,6 +120,8 @@ public class Shop {
                 System.out.println("Wie viel möchten sie aufladen?");
                 amount = scanner.nextInt();
                 user.deposit(amount);
+                 System.out.println("Sie haben nun " + user.getBalance() + "€ auf dem Konto");
+                 accountManagement(user);
                 break;
             case 2:
                 System.out.println("Wie viel möchten sie abheben?");
@@ -110,7 +129,12 @@ public class Shop {
                 user.withdraw(amount);
                 break;
             case 3:
-                System.out.println("Ihr Kontostand liegt momentan bei"+user.getBalance()+"€");
+                System.out.println("Ihr Kontostand liegt momentan bei " + user.getBalance() + "€");
+                accountManagement(user);
+                break;
+            case 4:
+                mainMenu(user);
+                break;
         }
     }
 

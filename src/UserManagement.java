@@ -6,12 +6,12 @@ public class UserManagement {
     Scanner scanner = new Scanner(System.in);
     Console console = System.console();
     private HashMap<String, User> users = new HashMap<String, User>();
-
-
+    public static User admin = new User("admin", "admin", "adminpassword");
+    public static User admin2 = new User("admin2", "admin2", "adminpassword2");
 
     public UserManagement() {
-        User test = new User("admin", "admin", "adminpassword");
-        users.put("admin", test);
+        users.put("admin", admin);
+        users.put("admin2", admin2);
     }
 
     public User login() {
@@ -66,7 +66,8 @@ public class UserManagement {
         return new String(passwd);
 
     }
-    public String passwordEntryTest(){
+
+    public String passwordEntryTest() {
         String password;
         Scanner scanner = new Scanner(System.in);
         password = scanner.nextLine();
