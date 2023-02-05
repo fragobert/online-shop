@@ -80,15 +80,22 @@ public class Shop {
         System.out.println("4: Produkt hinzufügen");
         System.out.println("5: Produkt löschen");
         System.out.println("6: Produkt kaufen");
+        System.out.println("7: Zurück zum Hauptmenü");
         int input = scanner.nextInt();
 
         switch (input) {
             case 1:
-                user.printProducts();
+                System.out.println("Alle Produkte: ");
+                printProducts(allProducts);
                 productMenu(user);
                 break;
             case 2:
-                user.printProducts();
+                System.out.println("Meine Produkte:");
+                System.out.println("Produkte zum verkaufen");
+                printProducts(user.getProductsToSell());
+                System.out.println("Nicht zu verkaufen");
+                printProducts(user.getMyProducts());
+                productMenu(user);
                 break;
             case 3:
                 System.out.println("Welches Produkt möchten Sie suchen?");
@@ -97,12 +104,42 @@ public class Shop {
                 productMenu(user);
                 break;
             case 4:
+                System.out.println("Name");
+                String productName = scanner.next();
+                System.out.println("Preis");
+                double price = scanner.nextDouble();
+                allProducts.add(new Product(productName, price, user));
+
+                user.addProduct(productName, price);
+                productMenu(user);
                 break;
             case 5:
+                String productToDelete = scanner.nextLine();
+                user.deleteProduct(productToDelete);
+                productMenu(user);
                 break;
             case 6:
-                System.out.println("Welchen Gegenstand möchten Sie kaufen?");
-                user.buy();
+                System.out.println("Geben Sie den Index des Produkts ein?");
+                String productToBuyName = scanner.next();
+                Product productToBuy =  allProducts.get(Integer.parseInt(productToBuyName)-1);
+                User seller = productToBuy.getOwner();
+                System.out.println(productToBuy.getName());
+                if(user.buy(productToBuy)){
+                    seller.deleteProduct(productToBuy.getName());
+                    seller.setBalance(seller.getBalance() + productToBuy.getPrice());
+                    allProducts.remove(productToBuy);
+                    System.out.println("Sie haben das Produkt gekauft");
+                }else{
+                    System.out.println("Kauf fehlgeschlagen");
+                }
+
+                productMenu(user);
+                break;
+            case 7:
+                mainMenu(user);
+                break;
+            default:
+                productMenu(user);
                 break;
         }
     }
@@ -113,7 +150,7 @@ public class Shop {
         System.out.println("1: Geld aufladen");
         System.out.println("2: Geld abheben");
         System.out.println("3: Kontoauszug");
-        System.out.println("4: Zurück zum ");
+        System.out.println("4: Zurück zum Menü");
         int input = scanner.nextInt();
         switch (input) {
             case 1:
@@ -127,6 +164,8 @@ public class Shop {
                 System.out.println("Wie viel möchten sie abheben?");
                 amount = scanner.nextInt();
                 user.withdraw(amount);
+                System.out.println("Sie haben nun " + user.getBalance() + "€ auf dem Konto");
+                accountManagement(user);
                 break;
             case 3:
                 System.out.println("Ihr Kontostand liegt momentan bei " + user.getBalance() + "€");
@@ -141,5 +180,31 @@ public class Shop {
     // gibt alle bereits vorhandenen Produkte aus
     public void addProduct(Product product) {
         allProducts.add(product);
+    }
+
+    public void printProducts(ArrayList<Product> products) {
+        System.out.println(products.size() + " Produkte gefunden");
+
+        for (Product product : products) {
+            System.out.println("ID: " + product.getID() + " " + product.getName() + " - " + product.getPrice() + " € " + product.getOwner().getName());
+        }
+    }
+
+    public void searchAll(String searchTerm) {
+        ArrayList<Product> searchResults = new ArrayList<Product>();
+        for (Product product : allProducts) {
+            if (product.getName().contains(searchTerm)) {
+                searchResults.add(product);
+            }
+        }
+        if (searchResults.size() == 0) {
+            System.out.println("Keine Produkte gefunden");
+        }else {
+            System.out.println("Es wurden " + searchResults.size() + " Produkte gefunden:");
+            for (Product product : searchResults) {
+                System.out.println(product.getName() + " - " + product.getPrice() + " € - " + product.getOwner().getName());
+            }
+        }
+
     }
 }

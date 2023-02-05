@@ -12,6 +12,14 @@ public class Product {
         id = count;
         count++;
     }
+    public Product(){}
+
+    public User getOwner(){
+        return this.owner;
+    }
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 
     public String getName() {
         return this.name;
